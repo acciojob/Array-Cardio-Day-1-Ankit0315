@@ -29,7 +29,7 @@ const people = [
 // Array.prototype.filter()
 // 1. Filter the list of inventors for those who were born in the 1500's and return the filtered array
 export function myfilter() {
-	return inventors.filter(inventors.year=='1500');
+	return inventors.filter(inventor => inventor.year >= 1500 && inventor.year < 1600);
 
 }
 
@@ -37,6 +37,7 @@ export function myfilter() {
 // 2. Give us an array of the inventor first and last names (i.e. full name)
 // Ex: For the first inventor the full name will be 'Albert Einstein'
 export function map() {
+	return inventors.map(inventor => `${inventor.first} ${inventor.last}`);
 
 }
 
@@ -45,7 +46,7 @@ export function map() {
 // 3. Sort the inventors by birthdate, oldest to youngest and return the sorted array
 export function sort() {
 
-
+return inventors.sort((a, b) => a.year - b.year);
 }
 
 
@@ -53,11 +54,21 @@ export function sort() {
 // 4. How many years did all the inventors live?
 // Return the total number of years all the inventors lived
 export function reduce() {
-
+const totalYears = inventors.reduce((acc, inventor) => {
+    return acc + (inventor.passed - inventor.year);
+  }, 0);
+  
+  return totalYears;
 }
 
 // 5. Sort the inventors by years lived and return the sorted array
 export function sortbylived() {
+	const sorted = inventors.sort(function(a, b) {
+    const lastInventor = a.passed - a.year;
+    const nextInventor = b.passed - b.year;
+    return lastInventor > nextInventor ? -1 : 1;
+  });
+  return sorted;
 
 }
 
@@ -65,12 +76,23 @@ export function sortbylived() {
 // Sort the people alphabetically by last name and return the sorted array
 export function sortByLastName() {
 
-}
+return people.sort((a, b) => {
+    const [aLast, aFirst] = a.split(', ');
+    const [bLast, bFirst] = b.split(', ');
+    return aLast.localeCompare(bLast) || aFirst.localeCompare(bFirst);
+  });
 
 // 7. Reduce Exercise
 // Sum up the instances of each of these
 const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck', 'pogostick'];
 
 export function reducedSum() {
+	  return data.reduce((obj, item) => {
+    if (!obj[item]) {
+      obj[item] = 0;
+    }
+    obj[item]++;
+    return obj;
+  }, {});
     // Return an object containing transports as key and its number of occurances as the key's value
 }
